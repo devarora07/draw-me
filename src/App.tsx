@@ -6,8 +6,6 @@ type ElementType = {
   y1: number
   x2: number
   y2: number
-  // TODO: add type
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   roughElement: any
 }
 
@@ -26,10 +24,26 @@ export default function App() {
     x2: number,
     y2: number
   ): ElementType => {
-    const roughElement =
-      elementType === 'line'
-        ? generator.line(x1, y1, x2, y2)
-        : generator.rectangle(x1, y1, x2 - x1, y2 - y1)
+    const roughEle = elementType
+      ? generator.line(x1, y1, x2, y2)
+      : generator.rectangle(x1, y1, x2 - x1, y2 - y1)
+    // generator.circle(x1, y1)
+
+    const roughElement = (() => {
+      switch (elementType) {
+        case 'line':
+          return generator.line(x1, y1, x2, y2)
+        case 'rectangle':
+          return generator.rectangle(x1, y1, x2 - x1, y2 - y1)
+        case 'circle':
+          return generator.circle(
+            x2,
+            y2,
+            Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2) * 2
+          )
+      }
+    })()
+
     return { x1, y1, x2, y2, roughElement }
   }
 
@@ -92,6 +106,16 @@ export default function App() {
         />
 
         <label htmlFor="rectangle">rectangle</label>
+
+        <input
+          type="radio"
+          name="circle"
+          id="circle"
+          checked={elementType === 'circle'}
+          onChange={() => setElementType('circle')}
+        />
+
+        <label htmlFor="circle">circle</label>
       </div>
       <canvas
         id="canvas"
