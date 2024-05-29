@@ -25,7 +25,7 @@ import {
   adjustElementCoordinates,
 } from './utils'
 import { ActionBar } from './components/ActionBar/actionBar'
-import { ControlPanel } from './components/control-panel/control-panel'
+import { ControlPanel } from './components/ControlPanel/controlPanel'
 
 const App = () => {
   const { elements, setElements, undo, redo } = useHistory([])
@@ -181,12 +181,6 @@ const App = () => {
       document.body.style.cursor = 'grabbing'
       return
     }
-
-    // if (event.button === 1 || pressedKeys.has(' ')) {
-    //   setAction('panning')
-    //   setStartPanMousePosition({ x: clientX, y: clientY })
-    //   document.body.style.cursor = 'grabbing'
-    // }
 
     if (tool === Tools.selection) {
       const element = getElementAtPosition(clientX, clientY, elements)
@@ -378,6 +372,7 @@ const App = () => {
         <textarea
           ref={textAreaRef}
           onBlur={handleBlur}
+          className="textArea"
           style={{
             top: selectedElement
               ? (selectedElement.y1 - 2) * scale +
