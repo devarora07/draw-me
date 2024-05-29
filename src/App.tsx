@@ -24,6 +24,8 @@ import {
   adjustmentRequired,
   adjustElementCoordinates,
 } from './utils'
+import { ActionBar } from './components/ActionBar/actionBar'
+import { ControlPanel } from './components/control-panel/control-panel'
 
 const App = () => {
   const { elements, setElements, undo, redo } = useHistory([])
@@ -172,10 +174,19 @@ const App = () => {
     if (action === 'writing') return
 
     const { clientX, clientY } = getMouseCoordinates(event)
-    if (event.button === 1 || pressedKeys.has(' ')) {
+
+    if (tool === Tools.pan || event.button === 1 || pressedKeys.has(' ')) {
       setAction('panning')
       setStartPanMousePosition({ x: clientX, y: clientY })
+      document.body.style.cursor = 'grabbing'
+      return
     }
+
+    // if (event.button === 1 || pressedKeys.has(' ')) {
+    //   setAction('panning')
+    //   setStartPanMousePosition({ x: clientX, y: clientY })
+    //   document.body.style.cursor = 'grabbing'
+    // }
 
     if (tool === Tools.selection) {
       const element = getElementAtPosition(clientX, clientY, elements)
@@ -327,6 +338,10 @@ const App = () => {
       }
     }
 
+    if (action === 'panning') {
+      document.body.style.cursor = 'default'
+    }
+
     if (action === 'writing') return
     setAction('none')
     setSelectedElement(null)
@@ -344,60 +359,26 @@ const App = () => {
     }
   }
 
+  const onZoom = (delta: number) => {
+    setScale((prevState) => Math.min(Math.max(prevState + delta, 0.1), 20))
+  }
+
   return (
     <div>
-      <div style={{ position: 'fixed', zIndex: 2 }}>
-        <input
-          type="radio"
-          id="selection"
-          checked={tool === 'selection'}
-          onChange={() => setTool('selection')}
-        />
-        <label htmlFor="selection">Selection</label>
+      <ActionBar tool={tool} setTool={setTool} />
 
-        <input
-          type={'radio'}
-          id="line"
-          checked={tool === 'line'}
-          onChange={() => setTool('line')}
-        />
-        <label htmlFor="line">Line</label>
-
-        <input
-          type={'radio'}
-          id="rectangle"
-          checked={tool === 'rectangle'}
-          onChange={() => setTool('rectangle')}
-        />
-
-        <label htmlFor="rectangle">Rectangle</label>
-
-        <input
-          type={'radio'}
-          id="pencil"
-          checked={tool === 'pencil'}
-          onChange={() => setTool('pencil')}
-        />
-        <label htmlFor="pencil">Pencil</label>
-
-        <input
-          type={'radio'}
-          id="text"
-          checked={tool === 'text'}
-          onChange={() => setTool('text')}
-        />
-        <label htmlFor="text">Text</label>
-      </div>
-      <div style={{ position: 'fixed', zIndex: 2, bottom: 0, padding: 10 }}>
-        <button onClick={undo}>Undo</button>
-        <button onClick={redo}>Redo</button>
-      </div>
+      <ControlPanel
+        undo={undo}
+        redo={redo}
+        onZoom={onZoom}
+        scale={scale}
+        setScale={setScale}
+      />
       {action === 'writing' ? (
         <textarea
           ref={textAreaRef}
           onBlur={handleBlur}
           style={{
-            position: 'fixed',
             top: selectedElement
               ? (selectedElement.y1 - 2) * scale +
                 panOffset.y * scale -
@@ -407,16 +388,6 @@ const App = () => {
               ? selectedElement.x1 * scale + panOffset.x * scale - scaleOffset.x
               : 0,
             font: `${24 * scale}px sans-serif`,
-
-            margin: 0,
-            padding: 0,
-            border: 0,
-            outline: 0,
-            // resize: 'auto',
-            overflow: 'hidden',
-            whiteSpace: 'pre',
-            background: 'transparent',
-            zIndex: 2,
           }}
         />
       ) : null}
@@ -428,9 +399,7 @@ const App = () => {
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         style={{ position: 'absolute', zIndex: 1 }}
-      >
-        Canvas
-      </canvas>
+      />
     </div>
   )
 }
