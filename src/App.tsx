@@ -382,7 +382,7 @@ const App = () => {
             left: selectedElement
               ? selectedElement.x1 * scale + panOffset.x * scale - scaleOffset.x
               : 0,
-            font: `${24 * scale}px sans-serif`,
+            font: `${24 * scale}px virgil`,
           }}
         />
       ) : null}

@@ -45,7 +45,7 @@ export const drawElement = (
       break
     case 'text':
       context.textBaseline = 'top'
-      context.font = '24px sans-serif'
+      context.font = '24px virgil'
       const text = element.text || ''
       context.fillText(text, element.x1, element.y1)
       break

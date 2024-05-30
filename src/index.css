@@ -1,4 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap'); */
+
+@font-face {
+  font-family: 'virgil';
+  src: url('./assets/fonts/Virgil.woff2') format('woff');
+}
+/* in separate css .elements or even the whole body, edit your font properties */
 
 :root {
   --primary: #6965db;
@@ -19,12 +25,16 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  /* font-family: 'Poppins', sans-serif; */
+  font-family: 'Virgil';
+  font-weight: normal;
+  font-style: normal;
 }
 
 .textArea {
   position: fixed;
-  font: 24px sans-serif;
+  /* font-size: 24px;
+  font-family: 'Virgil'; */
   margin: 0;
   padding: 0;
   border: 0;
