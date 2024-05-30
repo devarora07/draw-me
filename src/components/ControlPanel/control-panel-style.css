@@ -61,18 +61,22 @@
   border-bottom-right-radius: 8px;
 }
 
-.link {
+.social {
   z-index: 2;
   position: fixed;
-  bottom: 20px;
+  bottom: 5px;
   right: 20px;
-  border-radius: 8px;
   display: flex;
   gap: 8px;
   align-items: center;
-  background-color: var(--panel-bg-color);
   padding: 10px 15px;
   text-decoration: none;
+}
+
+.link {
+  padding: 10px 15px;
+  background-color: var(--panel-bg-color);
+  border-radius: 10px;
 }
 
 .link svg {

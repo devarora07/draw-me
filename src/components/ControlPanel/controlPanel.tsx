@@ -2,11 +2,12 @@ import Tippy from '@tippyjs/react'
 import 'tippy.js/dist/tippy.css'
 import './control-panel-style.css'
 import { PiMinus, PiPlus } from 'react-icons/pi'
-import { FiGithub } from 'react-icons/fi'
 import {
   HiOutlineArrowUturnLeft,
   HiOutlineArrowUturnRight,
 } from 'react-icons/hi2'
+import { FaGithub } from 'react-icons/fa'
+import { FaLinkedinIn } from 'react-icons/fa6'
 
 type ControlPanelProps = {
   undo: () => void
@@ -62,9 +63,18 @@ export function ControlPanel({
           </Tippy>
         </div>
       </div>{' '}
-      <a className="link" href="https://github.com/dr0id007" target="_blank">
-        <FiGithub />
-      </a>
+      <div className="social">
+        <a className="link" href="https://github.com/dr0id007" target="_blank">
+          <FaGithub />
+        </a>
+        <a
+          className="link"
+          href="https://www.linkedin.com/in/dev-arora-668180167/"
+          target="_blank"
+        >
+          <FaLinkedinIn />
+        </a>
+      </div>
     </>
   )
 }
